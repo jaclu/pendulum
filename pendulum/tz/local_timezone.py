@@ -59,10 +59,17 @@ def _get_system_timezone():  # type: () -> Timezone
         return _get_windows_timezone()
     elif "darwin" in sys.platform:
         return _get_darwin_timezone()
+    elif "ios" in sys.platform:
+        return _get_ios_timezone()
 
     return _get_unix_timezone()
 
 
+def _get_ios_timezone():
+    import datetime
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(0))).astimezone().tzinfo
+
+    
 def _get_windows_timezone():  # type: () -> Timezone
     from .data.windows import windows_timezones
 
